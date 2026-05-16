@@ -204,45 +204,26 @@ app.post('/send-to-drivers', async (req, res) => {
     // SAVE NOTIFICATIONS
     // =========================
 
-for (const driver of drivers) {
+    for (const driver of drivers) {
+      await db
+        .collection('notifications')
+        .doc(driver.id)
+        .collection('items')
+        .add({
+          title: title || 'New Ride Request 🚖',
+          body: body || 'Passenger requested ride',
 
-  await db
-    .collection('notifications')
-    .doc(driver.id)
-    .collection('items')
-    .add({
-      title:
-        title ||
-        'New Ride Request 🚖',
+          from,
+          destination,
+          fare,
+          item,
+          quantity,
 
-      body:
-        body ||
-        'Passenger requested ride',
+          read: false,
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+    }
 
-      from,
-
-      destination,
-
-      fare,
-
-      item,
-
-      quantity,
-
-      type,
-
-      senderRole:
-        'passenger',
-
-      targetRole:
-        'driver',
-
-      read: false,
-
-      createdAt:
-        admin.firestore.FieldValue.serverTimestamp(),
-    });
-}
     // =========================
     // RESPONSE
     // =========================
