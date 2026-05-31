@@ -172,6 +172,8 @@ app.post(
         fare,
         item,
         quantity,
+        email,
+        passengerUid,
       } = req.body;
 
       console.log(
@@ -397,6 +399,9 @@ app.post(
             fare,
             item,
             quantity,
+
+            email,
+            passengerUid,
 
             senderRole:
               'passenger',
